@@ -13,7 +13,7 @@ const App = () => {
  
   const fetchHeatmapData = async () => {
     try {
-      const response = await axios.get("http://webdevhw4api-4011c781b962.herokuapp.com/lastfm/heatmap", {
+      const response = await axios.get("https://webdevhw4api-4011c781b962.herokuapp.com/lastfm/heatmap", {
         params: { username, year, month },
       });
 
