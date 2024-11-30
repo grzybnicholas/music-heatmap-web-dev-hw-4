@@ -6,14 +6,14 @@ import { Tooltip } from "react-tooltip";
 
 const App = () => {
   const [heatmapData, setHeatmapData] = useState([]);
-  const [username, setUsername] = useState("your_lastfm_username"); // Replace with the actual Last.fm username
-  const [year, setYear] = useState(2023); // Example year
-  const [month, setMonth] = useState(11); // Example month (November)
+  const [username, setUsername] = useState("your_lastfm_username");
+  const [year, setYear] = useState(2023); 
+  const [month, setMonth] = useState(11);
 
-  // Fetch heatmap data from the backend
+ 
   const fetchHeatmapData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/lastfm/heatmap", {
+      const response = await axios.get("http://webdevhw4api-4011c781b962.herokuapp.com/lastfm/heatmap", {
         params: { username, year, month },
       });
 
@@ -22,11 +22,11 @@ const App = () => {
       // Format the data for the heatmap
       const formattedData = data.map((day) => ({
         date: new Date(day.date),
-        count: day.playCount, // Use play count for the intensity
-        track: day.mostPlayedTrack, // Include the track name for tooltip
+        count: day.playCount, 
+        track: day.mostPlayedTrack, 
       }));
 
-      setHeatmapData(formattedData); // Update the state with the data
+      setHeatmapData(formattedData); 
     } catch (error) {
       console.error("Error fetching heatmap data:", error.message);
     }
@@ -34,7 +34,7 @@ const App = () => {
 
   useEffect(() => {
     fetchHeatmapData();
-  }, [username, year, month]); // Re-fetch data when username, year, or month changes
+  }, [username, year, month]); 
 
   return (
     <div className="App">
