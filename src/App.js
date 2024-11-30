@@ -5,48 +5,53 @@ import "react-calendar-heatmap/dist/styles.css";
 import { Tooltip } from "react-tooltip";
 
 const App = () => {
+
   const [heatmapData, setHeatmapData] = useState([]);
-  const [username, setUsername] = useState("your_lastfm_username");
-  const [year, setYear] = useState(2023); 
+  const [username, setUsername] = useState("hpwas");
+  const [year, setYear] = useState(2023);
   const [month, setMonth] = useState(11);
 
- 
+  
   const fetchHeatmapData = async () => {
     try {
+      
       const response = await axios.get("https://webdevhw4api-4011c781b962.herokuapp.com/lastfm/heatmap", {
         params: { username, year, month },
       });
 
       const data = response.data;
 
-      // Format the data for the heatmap
+    
       const formattedData = data.map((day) => ({
-        date: new Date(day.date),
-        count: day.playCount, 
-        track: day.mostPlayedTrack, 
+        date: new Date(day.date),  
+        count: day.playCount,      
+        track: day.mostPlayedTrack,  
       }));
 
-      setHeatmapData(formattedData); 
+    
+      setHeatmapData(formattedData);
     } catch (error) {
       console.error("Error fetching heatmap data:", error.message);
     }
   };
 
+
   useEffect(() => {
     fetchHeatmapData();
-  }, [username, year, month]); 
+  }, [username, year, month]);
 
   return (
     <div className="App">
       <h1>Music Heatmap</h1>
-      
+
+      {/* Filters to input username, year, and month */}
       <div className="filters">
         <label>
           Username:
           <input
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}  
           />
         </label>
         <label>
@@ -54,7 +59,7 @@ const App = () => {
           <input
             type="number"
             value={year}
-            onChange={(e) => setYear(e.target.value)}
+            onChange={(e) => setYear(e.target.value)}  
           />
         </label>
         <label>
@@ -62,22 +67,24 @@ const App = () => {
           <input
             type="number"
             value={month}
-            onChange={(e) => setMonth(e.target.value)}
+            onChange={(e) => setMonth(e.target.value)}  
             min="1"
             max="12"
           />
         </label>
       </div>
 
+      {/* Display the heatmap with fetched data */}
       <div>
         <h2>{`${username}'s Music Heatmap (${month}/${year})`}</h2>
+
         <CalendarHeatmap
-          startDate={new Date(`${year}-01-01`)}
-          endDate={new Date(`${year}-12-31`)}
-          values={heatmapData}
-          showMonthLabels={true}
+          startDate={new Date(`${year}-01-01`)}  
+          endDate={new Date(`${year}-12-31`)}   
+          values={heatmapData} 
+          showMonthLabels={true}  
           tooltipDataAttrs={(value) => ({
-            "data-tip": `Track: ${value.track} | Play count: ${value.count}`,
+            "data-tip": `Track: ${value.track} | Play count: ${value.count}`, 
           })}
           onClick={(value) => {
             if (value) {
@@ -85,6 +92,8 @@ const App = () => {
             }
           }}
         />
+
+        {/* Tooltip component to display the tooltip */}
         <Tooltip />
       </div>
     </div>
@@ -92,5 +101,6 @@ const App = () => {
 };
 
 export default App;
+
 
 
